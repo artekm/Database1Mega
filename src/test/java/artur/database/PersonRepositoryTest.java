@@ -18,15 +18,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class MyRepositoryTest {
+class PersonRepositoryTest {
 
     @Autowired
-    private MyRepository repository;
+    private PersonRepository repository;
 
     @MockBean
     private JdbcTemplate jdbcTemplate;
 
-    @SuppressWarnings("unchecked")
     @Test
     void getPeopleWithID_returnEmptyList_forNoId() {
         List<Person> testPeople = Collections.emptyList();
@@ -35,7 +34,6 @@ class MyRepositoryTest {
         assertTrue(repository.getPeopleWithID().containsAll(testPeople));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void getPeopleWithID_returnCorrectValues_forOneId() {
         Person johnDoe = new Person(1, "John", "Doe");
@@ -45,7 +43,6 @@ class MyRepositoryTest {
         assertThat(repository.getPeopleWithID(1)).containsExactly(johnDoe);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void getPeopleWithID_returnCorrectValues_forManyId() {
         Person johnDoe = new Person(1, "John", "Doe");
