@@ -4,6 +4,7 @@ import com.google.common.primitives.Ints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -36,7 +37,8 @@ class PersonRepository {
 
     List<Person> getPeopleWithID2(int... Ids) {
         SqlParameterSource parameters = new MapSqlParameterSource().addValue("ids", Ints.asList(Ids));
-        return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, mapper);
+        RowMapper<Person> personRowMapper = (rs, row) -> new Person(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"));
+        return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, personRowMapper);
     }
 
     List<String> filter(int... ids) {

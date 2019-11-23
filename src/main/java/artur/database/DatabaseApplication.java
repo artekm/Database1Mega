@@ -44,7 +44,7 @@ public class DatabaseApplication implements CommandLineRunner {
 
     private void PrepareDatabase() {
         jdbcTemplate
-                .execute("create table person ( id integer not null, first_name varchar(255) not null, last_name varchar(255) not null, primary key(id));");
+                .execute("create table person ( id integer not null, firstName varchar(255) not null, lastName varchar(255) not null, primary key(id));");
         jdbcTemplate
                 .execute("insert into person  values (1,'John','Doe'),(2,'Jane','Doe'),(300,'Anna','Frank'),(400000,'Anna','Noname');");
     }
