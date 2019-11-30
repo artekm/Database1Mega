@@ -35,11 +35,18 @@ public class DatabaseApplication implements CommandLineRunner {
         List<Person> result2 = repository.getPeopleWithID2(table);
         log.info(result2.toString());
 
-        log.info(repository.filter(table).toString());
-        log.info(repository.filter2(table).toString());
+        Filters filters = new Filters();
+        log.info(filters.filterVersion1(table).toString());
+        log.info(filters.filterVersion2(table).toString());
 
         String testString = "abeeecaaddd";
         log.info(repository.countChars(testString).toString());
+
+        Integer[] arrayObjects = new Integer[]{1,2,3,4,5};
+        System.out.println(Arrays.asList(arrayObjects)); //[1, 2, 3, 4, 5] OK
+
+        int[] arrayPrimitives = new int[]{1,2,3,4,5};
+        System.out.println(Arrays.asList(arrayPrimitives)); //[I@5d7ca698] it seems to be a list of just one element and this element is an array of ints
     }
 
     private void PrepareDatabase() {

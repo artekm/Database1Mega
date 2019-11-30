@@ -22,9 +22,6 @@ class PersonRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
     private BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
 
     List<Person> getPeopleWithID(int... Ids) {
@@ -36,28 +33,10 @@ class PersonRepository {
     }
 
     List<Person> getPeopleWithID2(int... Ids) {
-        SqlParameterSource parameters = new MapSqlParameterSource().addValue("ids", Ints.asList(Ids));
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", Ints.asList(Ids));
         RowMapper<Person> personRowMapper = (rs, row) -> new Person(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"));
         return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, personRowMapper);
-    }
-
-    List<String> filter(int... ids) {
-        if (ids.length < 20)
-            throw new IllegalArgumentException("Ids count must be at least 20");
-        return Arrays.stream(ids)
-                     .skip(ids.length / 2 - 10)
-                     .limit(20)
-                     .mapToObj(String::valueOf)
-                     .collect(Collectors.toList());
-    }
-
-    List<String> filter2(int... ids) {
-        if (ids.length < 20)
-            throw new IllegalArgumentException("Ids count must be at least 20");
-        int middle = ids.length / 2;
-        return IntStream.range(middle - 10, middle + 10)
-                        .mapToObj(i -> String.valueOf(ids[i]))
-                        .collect(Collectors.toList());
     }
 
     Map<Character, Long> countChars(String input) {
