@@ -24,7 +24,7 @@ public class Controller {
 
     @GetMapping(value = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person getSinglePerson(@PathVariable Integer id) {
-        return personService.getSinglePerson(id);
+        return personService.getById(id);
     }
 
     @GetMapping(value="/person", produces = MediaType.APPLICATION_JSON_VALUE)

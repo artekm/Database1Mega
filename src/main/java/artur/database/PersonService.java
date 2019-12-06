@@ -15,8 +15,8 @@ public class PersonService {
         return personRepository.getThemAll();
     }
 
-    public Person getSinglePerson(Integer id) {
-        return personRepository.getSinglePerson(id);
+    public Person getById(Integer id) {
+        return personRepository.getById(id);
     }
 
     public Person getByPesel(String pesel){
