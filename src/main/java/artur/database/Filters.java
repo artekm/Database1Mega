@@ -2,6 +2,7 @@ package artur.database;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,4 +26,11 @@ public class Filters {
                         .mapToObj(i -> String.valueOf(ids[i]))
                         .collect(Collectors.toList());
     }
+
+    Map<Character, Long> countChars(String input) {
+        return input.chars()
+                    .mapToObj(i -> (char) i)
+                    .collect(Collectors.groupingBy(chr -> chr, Collectors.counting()));
+    }
+
 }
