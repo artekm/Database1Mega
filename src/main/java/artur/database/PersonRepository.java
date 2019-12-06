@@ -21,26 +21,34 @@ class PersonRepository {
 
     private BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
 
-    List<Person> getPeopleWithID(int... Ids) {
+    public List<Person> getPeopleWithID(int... Ids) {
         String allIds = Arrays.stream(Ids)
                               .mapToObj(String::valueOf)
                               .collect(Collectors.joining(","));
 
-        return jdbcTemplate.query("select Id, firstName, lastName, pesel from person where id in (" + allIds + ")", mapper);
+        return jdbcTemplate
+                .query("select Id, firstName, lastName, pesel from person where id in (" + allIds + ")", mapper);
     }
 
-    List<Person> getThemAll() {
+    public List<Person> getThemAll() {
         return jdbcTemplate.query("select Id, firstName, lastName, pesel from person", mapper);
     }
 
-    Person getSinglePerson(int id) {
+    public Person getByPesel(String pesel) {
+        List<Person> res = jdbcTemplate
+                .query("select Id, firstName, lastName, pesel from person where pesel = " + pesel, mapper);
+        return res.isEmpty() ? null : res.get(0);
+    }
+
+    public Person getSinglePerson(int id) {
         List<Person> res = getPeopleWithID2(id);
         return res.isEmpty() ? null : res.get(0);
     }
 
-    List<Person> getPeopleWithID2(int... Ids) {
+    public List<Person> getPeopleWithID2(int... Ids) {
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         SqlParameterSource parameters = new MapSqlParameterSource("ids", Ints.asList(Ids));
-        return namedParameterJdbcTemplate.query("select Id, firstName, lastName, pesel from person where id in (:ids)", parameters, mapper);
+        return namedParameterJdbcTemplate
+                .query("select Id, firstName, lastName, pesel from person where id in (:ids)", parameters, mapper);
     }
 }

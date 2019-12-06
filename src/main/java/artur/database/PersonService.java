@@ -18,4 +18,8 @@ public class PersonService {
     public Person getSinglePerson(Integer id) {
         return personRepository.getSinglePerson(id);
     }
+
+    public Person getByPesel(String pesel){
+        return personRepository.getByPesel(pesel);
+    }
 }

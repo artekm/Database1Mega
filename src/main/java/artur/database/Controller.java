@@ -2,13 +2,16 @@ package artur.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@Validated
 public class Controller {
 
     @Autowired
@@ -22,5 +25,10 @@ public class Controller {
     @GetMapping(value = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person getSinglePerson(@PathVariable Integer id) {
         return personService.getSinglePerson(id);
+    }
+
+    @GetMapping(value="/person", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person getByPesel(@RequestParam @Pesel String pesel){
+        return personService.getByPesel(pesel);
     }
 }
