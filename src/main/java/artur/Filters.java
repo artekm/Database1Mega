@@ -1,4 +1,4 @@
-package artur.database;
+package artur;
 
 import java.util.Arrays;
 import java.util.List;

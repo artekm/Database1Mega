@@ -1,4 +1,4 @@
-package artur.database;
+package artur;
 
 import com.google.common.primitives.Ints;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +21,24 @@ class PersonRepository {
 
     private BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
 
+    public List<Person> getThemAll() {
+        return jdbcTemplate.query("select * from person", mapper);
+    }
+
+    public Person getByPesel(String pesel) {
+        return jdbcTemplate.queryForObject("select * from person where pesel = ?", mapper, pesel);
+    }
+
+    public Person getById(int id) {
+        return jdbcTemplate.queryForObject("select * from person where id = ?", mapper, id);
+    }
+
     public List<Person> getPeopleWithID(int... Ids) {
         String allIds = Arrays.stream(Ids)
                               .mapToObj(String::valueOf)
                               .collect(Collectors.joining(","));
 
         return jdbcTemplate.query("select * from person where id in (" + allIds + ")", mapper);
-    }
-
-    public List<Person> getThemAll() {
-        return jdbcTemplate.query("select * from person", mapper);
-    }
-
-    public Person getByPesel(String pesel) {
-        List<Person> res = jdbcTemplate.query("select * from person where pesel = ?", mapper, pesel);
-        return res.isEmpty() ? null : res.get(0);
-    }
-
-    public Person getById(int id) {
-        List<Person> res = getPeopleWithID2(id);
-        return res.isEmpty() ? null : res.get(0);
     }
 
     public List<Person> getPeopleWithID2(int... Ids) {

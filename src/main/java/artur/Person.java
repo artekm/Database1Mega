@@ -1,4 +1,4 @@
-package artur.database;
+package artur;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
