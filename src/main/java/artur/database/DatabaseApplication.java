@@ -7,18 +7,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Slf4j
 @SpringBootApplication
 public class DatabaseApplication implements CommandLineRunner {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private PersonRepository repository;
 
     public static void main(String[] args) {
         SpringApplication.run(DatabaseApplication.class, args);
@@ -27,19 +21,13 @@ public class DatabaseApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         PrepareDatabase();
-
-        Integer[] arrayObjects = new Integer[]{1,2,3,4,5};
-        System.out.println(Arrays.asList(arrayObjects)); //[1, 2, 3, 4, 5] OK
-
-        int[] arrayPrimitives = new int[]{1,2,3,4,5};
-        System.out.println(Arrays.asList(arrayPrimitives)); //[I@5d7ca698] it seems to be a list of just one element and this element is an array of ints
     }
 
     private void PrepareDatabase() {
         jdbcTemplate
-                .execute("create table person ( id integer not null, firstName varchar(255) not null, lastName varchar(255) not null, primary key(id));");
+                .execute("create table person ( id integer not null, firstName varchar(255) not null, lastName varchar(255) not null, pesel varchar(20) not null, primary key(id));");
         jdbcTemplate
-                .execute("insert into person  values (1,'John','Doe'),(2,'Jane','Doe'),(300,'Anna','Frank'),(400000,'Anna','Noname');");
+                .execute("insert into person  values (1,'John','Doe','75041100954'),(2,'Jane','Doe','76112707706'),(300,'Anna','Frank','14310604232'),(400000,'Anna','Noname','18210102896');");
     }
 }
 

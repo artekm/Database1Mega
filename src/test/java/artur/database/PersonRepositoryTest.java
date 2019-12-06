@@ -36,7 +36,7 @@ class PersonRepositoryTest {
 
     @Test
     void getPeopleWithID_returnCorrectValues_forOneId() {
-        Person johnDoe = new Person(1, "John", "Doe");
+        Person johnDoe = new Person(1, "John", "Doe","75041100954");
         List<Person> testPeople = Collections.singletonList(johnDoe);
         when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class))).thenReturn(testPeople);
 
@@ -45,9 +45,9 @@ class PersonRepositoryTest {
 
     @Test
     void getPeopleWithID_returnCorrectValues_forManyId() {
-        Person johnDoe = new Person(1, "John", "Doe");
-        Person janneDoe = new Person(2, "Janne", "Doe");
-        Person johnBlack = new Person(3, "John", "Black");
+        Person johnDoe = new Person(1, "John", "Doe","75041100954");
+        Person janneDoe = new Person(2, "Janne", "Doe","76112707706");
+        Person johnBlack = new Person(3, "John", "Black","18210102896");
         List<Person> testPeople = Arrays.asList(johnDoe, janneDoe, johnBlack);
         when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class))).thenReturn(testPeople);
 

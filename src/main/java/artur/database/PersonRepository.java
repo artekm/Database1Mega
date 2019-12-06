@@ -26,11 +26,11 @@ class PersonRepository {
                               .mapToObj(String::valueOf)
                               .collect(Collectors.joining(","));
 
-        return jdbcTemplate.query("select * from person where id in (" + allIds + ")", mapper);
+        return jdbcTemplate.query("select Id, firstName, lastName, pesel from person where id in (" + allIds + ")", mapper);
     }
 
     List<Person> getThemAll() {
-        return jdbcTemplate.query("select * from person", mapper);
+        return jdbcTemplate.query("select Id, firstName, lastName, pesel from person", mapper);
     }
 
     Person getSinglePerson(int id) {
@@ -41,6 +41,6 @@ class PersonRepository {
     List<Person> getPeopleWithID2(int... Ids) {
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         SqlParameterSource parameters = new MapSqlParameterSource("ids", Ints.asList(Ids));
-        return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, mapper);
+        return namedParameterJdbcTemplate.query("select Id, firstName, lastName, pesel from person where id in (:ids)", parameters, mapper);
     }
 }

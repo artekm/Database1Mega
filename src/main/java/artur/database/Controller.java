@@ -14,13 +14,13 @@ public class Controller {
     @Autowired
     PersonService personService;
 
-    @GetMapping(value = "/persons",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> getPersons(){
+    @GetMapping(value = "/persons", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> getAllPerson() {
         return personService.getThemAll();
     }
 
-    @GetMapping(value="/person/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person getSinglePerson(@PathVariable String id){
-        return personService.getSinglePerson(Integer.parseInt(id));
+    @GetMapping(value = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person getSinglePerson(@PathVariable Integer id) {
+        return personService.getSinglePerson(id);
     }
 }

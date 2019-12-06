@@ -16,7 +16,7 @@ public class Aspects {
 
     private static final Logger logger = LoggerFactory.getLogger(Aspect.class);
 
-    @Around("execution(* artur.database.PersonRepository.*(..))")
+//    @Around("execution(* artur.database.PersonService.getSinglePerson(..))")
     public Object measureExecTime(ProceedingJoinPoint pjp) throws Throwable {
         logger.info("Performing task " + pjp.getSignature());
         Instant startTime = Instant.now();
