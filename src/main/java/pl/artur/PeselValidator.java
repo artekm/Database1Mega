@@ -55,4 +55,15 @@ public class PeselValidator implements ConstraintValidator<Pesel, String> {
         sum = 10 - (sum % 10);
         return (sum == PESEL[10]);
     }
+
+    public boolean simplePeselCheck(String pesel) {
+        if (!pesel.matches("^\\d{11}$"))
+            return false;
+        int[] wages = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+        int sum = IntStream.rangeClosed(0, 9)
+                           .map(i -> wages[i] * (pesel.charAt(i) - '0'))
+                           .sum();
+        sum = 10 - (sum % 10);
+        return (sum == pesel.charAt(10));
+    }
 }
