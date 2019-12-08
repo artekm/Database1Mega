@@ -1,4 +1,4 @@
-package artur;
+package pl.artur;
 
 import com.google.common.primitives.Ints;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,13 @@ class PersonRepository {
     }
 
     public Person getByPesel(String pesel) {
-        return jdbcTemplate.queryForObject("select * from person where pesel = ?", mapper, pesel);
+        List<Person> res = jdbcTemplate.query("select * from person where pesel = ?", mapper, pesel);
+        return res.isEmpty() ? null : res.get(0);
     }
 
     public Person getById(int id) {
-        return jdbcTemplate.queryForObject("select * from person where id = ?", mapper, id);
+        List<Person> res = jdbcTemplate.query("select * from person where id = ?", mapper, id);
+        return res.isEmpty() ? null : res.get(0);
     }
 
     public List<Person> getPeopleWithID(int... Ids) {

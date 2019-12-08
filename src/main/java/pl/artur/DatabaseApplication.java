@@ -1,4 +1,4 @@
-package artur;
+package pl.artur;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,9 @@ public class DatabaseApplication implements CommandLineRunner {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private PersonService service;
+
     public static void main(String[] args) {
         SpringApplication.run(DatabaseApplication.class, args);
     }
@@ -21,6 +24,9 @@ public class DatabaseApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         PrepareDatabase();
+        service.getById(1);
+        service.getById(2);
+        service.getById(3);
     }
 
     private void PrepareDatabase() {

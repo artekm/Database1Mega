@@ -1,4 +1,4 @@
-package artur;
+package pl.artur;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

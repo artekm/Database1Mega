@@ -1,4 +1,4 @@
-package artur;
+package pl.artur;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,12 +18,12 @@ public class Controller {
     PersonService personService;
 
     @GetMapping(value = "/persons", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> getAllPerson() {
+    public List<Person> getAll() {
         return personService.getThemAll();
     }
 
     @GetMapping(value = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person getSinglePerson(@PathVariable Integer id) {
+    public Person getById(@PathVariable Integer id) {
         return personService.getById(id);
     }
 

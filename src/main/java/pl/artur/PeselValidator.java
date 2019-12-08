@@ -1,7 +1,8 @@
-package artur;
+package pl.artur;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.stream.IntStream;
 
 public class PeselValidator implements ConstraintValidator<Pesel, String> {
 
@@ -26,20 +27,9 @@ public class PeselValidator implements ConstraintValidator<Pesel, String> {
     }
 
     private int getYear(int[] PESEL) {
-        int month = getMonth(PESEL);
+        int[] century = {1900, 2000, 2100, 2200, 1800};
         int year = 10 * PESEL[0] + PESEL[1];
-        if (month < 13) {
-            year += 1900;
-        } else if (month > 20 && month < 33) {
-            year += 2000;
-        } else if (month > 40 && month < 53) {
-            year += 2100;
-        } else if (month > 60 && month < 73) {
-            year += 2200;
-        } else if (month > 80 && month < 93) {
-            year += 1800;
-        }
-        return year;
+        return century[getMonth(PESEL) / 20] + year;
     }
 
     private int getDay(int[] PESEL) {
@@ -51,32 +41,18 @@ public class PeselValidator implements ConstraintValidator<Pesel, String> {
     }
 
     private int maxDay(int month, int year) {
-        int max = 31;
-        if (month == 4 || month == 6 || month == 9 || month == 11)
-            max = 30;
-        if (month == 2)
-            max = leapYear(year) ? 29 : 28;
-        return max;
+        int[] max = {31, leapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return max[month - 1];
     }
 
     private boolean leapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0 || year % 400 == 0);
     }
 
-    @SuppressWarnings("PointlessArithmeticExpression")
     private boolean checkPeselSum(int[] PESEL) {
-        int sum = 1 * PESEL[0] +
-                3 * PESEL[1] +
-                7 * PESEL[2] +
-                9 * PESEL[3] +
-                1 * PESEL[4] +
-                3 * PESEL[5] +
-                7 * PESEL[6] +
-                9 * PESEL[7] +
-                1 * PESEL[8] +
-                3 * PESEL[9];
-        sum = (10 - (sum % 10)) % 10;
-
+        int[] wages = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+        int sum = IntStream.rangeClosed(0, 9).map(i -> PESEL[i] * wages[i]).sum();
+        sum = 10 - (sum % 10);
         return (sum == PESEL[10]);
     }
 }
