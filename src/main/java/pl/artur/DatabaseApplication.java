@@ -24,9 +24,6 @@ public class DatabaseApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         PrepareDatabase();
-        service.getById(1);
-        service.getById(2);
-        service.getById(3);
     }
 
     private void PrepareDatabase() {

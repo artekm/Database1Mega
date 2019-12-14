@@ -19,10 +19,13 @@ class PersonRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     private BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
 
-    public List<Person> getThemAll() {
-        return jdbcTemplate.query("select * from person", mapper);
+    public People getThemAll() {
+        return new People(jdbcTemplate.query("select * from person", mapper));
     }
 
     public Person getByPesel(String pesel) {
@@ -43,9 +46,8 @@ class PersonRepository {
         return jdbcTemplate.query("select * from person where id in (" + allIds + ")", mapper);
     }
 
-    public List<Person> getPeopleWithID2(int... Ids) {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-        SqlParameterSource parameters = new MapSqlParameterSource("ids", Ints.asList(Ids));
+    public List<Person> getPeopleWithID2(Integer... Ids) {
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", Arrays.asList(Ids));
         return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, mapper);
     }
 }

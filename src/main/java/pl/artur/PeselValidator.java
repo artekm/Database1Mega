@@ -64,6 +64,6 @@ public class PeselValidator implements ConstraintValidator<Pesel, String> {
                            .map(i -> wages[i] * (pesel.charAt(i) - '0'))
                            .sum();
         sum = (10 - (sum % 10)) % 10;
-        return (sum == pesel.charAt(10));
+        return (sum == pesel.charAt(10) - '0');
     }
 }
