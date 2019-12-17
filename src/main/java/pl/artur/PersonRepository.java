@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,14 @@ class PersonRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
+
+    @PostConstruct
+    private void PrepareDatabase() {
+        jdbcTemplate
+                .execute("create table person ( id integer not null, firstName varchar(255) not null, lastName varchar(255) not null, pesel varchar(20) not null, primary key(id));");
+        jdbcTemplate
+                .execute("insert into person  values (1,'John','Doe','75041100954'),(2,'Jane','Doe','76112707706'),(300,'Anna','Frank','14310604232'),(400000,'Anna','Noname','18210102896');");
+    }
 
     public People getThemAll() {
         return new People(jdbcTemplate.query("select * from person", mapper));
@@ -46,8 +55,8 @@ class PersonRepository {
         return jdbcTemplate.query("select * from person where id in (" + allIds + ")", mapper);
     }
 
-    public List<Person> getPeopleWithID2(Integer... Ids) {
-        SqlParameterSource parameters = new MapSqlParameterSource("ids", Arrays.asList(Ids));
+    public List<Person> getPeopleWithID2(int... Ids) {
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", Ints.asList(Ids));
         return namedParameterJdbcTemplate.query("select * from person where id in (:ids)", parameters, mapper);
     }
 }
