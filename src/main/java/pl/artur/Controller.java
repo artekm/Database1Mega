@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+
 @Validated
 @RestController
 public class Controller {
@@ -16,9 +18,7 @@ public class Controller {
     PersonService personService;
 
     @GetMapping(value = "/persons", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public People getAll() {
-        return personService.getThemAll();
-    }
+    public People getAll() { return personService.getThemAll(); }
 
     @GetMapping(value = "/person/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Person getById(@PathVariable String id) {
