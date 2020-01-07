@@ -14,6 +14,7 @@ public class DatabaseApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DatabaseApplication.class).bannerMode(Banner.Mode.OFF).run(args);
 //        SpringApplication.run(DatabaseApplication.class, args);
+        //alalalalalalaa
     }
 }
 
