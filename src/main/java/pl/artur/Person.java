@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-class Person {
+public class Person {
     private Integer Id;
     private String firstName;
     private String lastName;
